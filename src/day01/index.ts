@@ -1,6 +1,10 @@
 import run from "aocrunner";
 
-const dict = {
+interface IDict {
+  [key: string]: number;
+}
+
+const dict: IDict = {
   one: 1,
   two: 2,
   four: 4,
@@ -20,18 +24,18 @@ const dict = {
   7: 7,
   8: 8,
   9: 9,
-} as any;
+};
+
+const parseInput = (rawInput: string) => rawInput.split("\n").filter(Boolean);
 
 const reduceSum = (regex: RegExp) => (acc: number, curr: string) => {
-  const results = [...curr.matchAll(/\d/gm)];
+  const results = [...curr.matchAll(new RegExp(regex))];
 
   const lower = dict[results.at(0)?.[0] || 0];
   const upper = dict[results.at(-1)?.[0] || 0];
 
   return (acc += Number(`${lower}${upper}`));
 };
-
-const parseInput = (rawInput: string) => rawInput.split("\n").filter(Boolean);
 
 function sumCalibrationValues(input: string[]): number {
   let sum = 0;
